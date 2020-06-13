@@ -6,14 +6,14 @@ int bin_search(int arr[],int start,int end,int x){
   //start and end are the indices for the binary search to operate
   //x is the element to be found in the array arr[]
   int mid_index;
-  //mid_index=(start+end)/2;
+
   if(start<end){
-    mid_index=start+(end-start)/2;
+    mid_index=(start+end)/2;
     if(x==arr[mid_index]){
       return mid_index;
     }
     else if(x<arr[mid_index]){
-      return bin_search(arr,0,mid_index-1,x);
+      return bin_search(arr,start,mid_index-1,x);
     }
     else if(x>arr[mid_index]){
       return bin_search(arr,mid_index+1,end,x);
@@ -24,9 +24,9 @@ int bin_search(int arr[],int start,int end,int x){
   }
 }
 int main(){
-  int arr[]={2,4,6,7,9,10,11},arr_size;
+  int arr[]={2,4,6,7,9,10,11,12},arr_size;
   int position_x;
-  int x=4; //the element whose postiion is to be found
+  int x=10; //the element whose postiion is to be found
 
   arr_size=sizeof(arr)/sizeof(arr[0]);
   position_x=bin_search(arr,0,arr_size-1,x);

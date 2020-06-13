@@ -1,0 +1,2 @@
+4 memory segments for an application: heap stack static/global code(text)
+\n dynamic mem allocation handled in the heap section 
