@@ -84,6 +84,24 @@ int find_height(struct BstNode* root){
 	//calculate heights of left and right subtrees recursively 
 }
 
+void preorder(struct BstNode* root){
+	if(root==NULL) return;
+	printf("%d\t",root->data);
+	preorder(root->left);
+	preorder(root->right);
+}
+void inorder(struct BstNode* root){
+	if(root==NULL) return;
+	inorder(root->left);
+	printf("%d\t",root->data);
+	inorder(root->right);
+}
+void postorder(struct BstNode* root){
+	if(root==NULL) return;
+	postorder(root->left);
+	postorder(root->right);
+	printf("%d\t",root->data);
+}
 
 
 int main(){
@@ -104,5 +122,15 @@ int main(){
 	
 	printf("Height of the tree is:%d\n",find_height(root_ptr));
 	is_binary_search_tree(root_ptr)?printf("It is a BST\n"):printf("Not a BST\n");
+	
+	printf("Preorder:\n");
+	preorder(root_ptr);
+	
+	printf("\nPostorder:\n");
+	postorder(root_ptr);
+	
+	printf("\nInorder:\n");
+	inorder(root_ptr);
+
 	return 0;
 }
