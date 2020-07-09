@@ -1,11 +1,11 @@
 #include <stdio.h> 
 #include <stdlib.h> 
-
-struct BstNode{
-	int data;
-	struct BstNode* left;
-	struct BstNode* right;
-};
+#include "./check_bst.h"
+// struct BstNode{
+// 	int data;
+// 	struct BstNode* left;
+// 	struct BstNode* right;
+// };
 
 struct BstNode* get_new_node(int data){
 	struct BstNode* new_node=(struct BstNode*)malloc(sizeof(struct BstNode));
@@ -85,6 +85,7 @@ int find_height(struct BstNode* root){
 }
 
 
+
 int main(){
 	struct BstNode* root_ptr;
 	int data;
@@ -93,7 +94,7 @@ int main(){
 	root_ptr=insert(root_ptr,10);
 	root_ptr=insert(root_ptr,7);
 	root_ptr=insert(root_ptr,11);
-	root_ptr=insert(root_ptr,12);
+	root_ptr=insert(root_ptr,9);
 
 	printf("Enter a number to search:\n");
 	scanf("%d",&data);
@@ -102,5 +103,6 @@ int main(){
 	printf("Maximum element:%d\n",find_max(root_ptr));
 	
 	printf("Height of the tree is:%d\n",find_height(root_ptr));
+	is_binary_search_tree(root_ptr)?printf("It is a BST\n"):printf("Not a BST\n");
 	return 0;
 }

@@ -10,9 +10,15 @@ int gcd(int a,int b){
 }
 
 int main(){
-	int a=16,b=8;
+	int a=16,b=8i,temp;
 
 	scanf("%d %d",&a,&b);
+	if(a<b){
+		//swap a and b 
+		temp=a;
+		a=b;
+		b=temp;
+	}
 	printf("GCD:%d",gcd(a,b));
 	return 0;
 }
