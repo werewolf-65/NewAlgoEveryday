@@ -43,14 +43,30 @@ int search(struct BstNode* root,int data){
 	}
 }
 
+//find and return the node 
+struct BstNode* find(struct BstNode* root,int data){
+	if(root==NULL){
+		return NULL;
+	}
+	if(root->data == data){
+		return root;
+	}
+	else if(data<=root->data){
+		return find(root->left,data);
+	}
+	else{
+		return find(root->right,data);
+	}
+}
+
 //find the min element of the tree 
-int find_min(struct BstNode* root){
+struct BstNode* find_min(struct BstNode* root){
 	if(root==NULL){
 		printf("Error:Empty tree\n");;
-		return -1;
+		return NULL;
 	}
 	if(root->left ==NULL){
-		return root->data;
+		return root;
 	}
 	else{
 		return find_min(root->left);
@@ -102,10 +118,73 @@ void postorder(struct BstNode* root){
 	postorder(root->right);
 	printf("%d\t",root->data);
 }
+struct BstNode* delete(struct BstNode* root,int data){
+	if(root==NULL)return root;
+	else if(data<root->data){
+		root->left=delete(root->left,data);
+	}
+	else if(data > root->data){
+		root->right=delete(root->right,data);
+	}
+	else{
+	        // data is found
+		//case 1: the node has no child 
+		if(root->left ==NULL && root->right==NULL){
+			free(root);
+			root=NULL;
+		}
+		//case 2: the node has one child 
+		else if(root->left==NULL){
+			struct BstNode* temp=root;
+			root=root->right;
+			free(temp);
+		}
+		else if(root->right==NULL){
+			struct BstNode* temp=root;
+			root=root->left;
+			free(temp);
+		}
+		//case 3: has 2 children 
+		else{
+			struct BstNode* temp=find_min(root->right); // the idea is to find the minimum of the right subtree and put its data in the current node 
+			//alternative idea: find the max of the left subtree and do the same thing 
+			root->data=temp->data;
+			root->right=delete(root->right,temp->data);
+		}
+	}
+	return root;
+		
+
+}
 
 
+struct BstNode* inorder_successor(struct BstNode* root,int data){
+	struct BstNode* current;
+	current=find(root,data);
+	//case 1: current node has right subtree
+	if(current->right!=NULL){
+		return find_min(current->right);
+	}
+	else{
+	//case 2: doesn't have the right subtree 
+	//idea is to find the nearest ancestor to which the current node is in the left subtree 
+	struct BstNode* ancestor=root; //kind of like iterator 
+	struct BstNode* successor=NULL;
+	while(ancestor != NULL){
+		if(current->data < ancestor->data){
+			successor=ancestor;
+			ancestor=ancestor->left;
+		}
+		else{
+			ancestor=ancestor->right;
+		}
+	}
+	return successor;
+}
+
+} 
 int main(){
-	struct BstNode* root_ptr;
+	struct BstNode* root_ptr,*successor;
 	int data;
 	root_ptr=NULL;
 	root_ptr=insert(root_ptr,8);
@@ -117,7 +196,7 @@ int main(){
 	printf("Enter a number to search:\n");
 	scanf("%d",&data);
 	search(root_ptr,data)?printf("Found"):printf("Not found\n");
-	printf("Minimum element:%d\n",find_min(root_ptr));
+	printf("Minimum element:%d\n",find_min(root_ptr)->data);
 	printf("Maximum element:%d\n",find_max(root_ptr));
 	
 	printf("Height of the tree is:%d\n",find_height(root_ptr));
@@ -131,6 +210,13 @@ int main(){
 	
 	printf("\nInorder:\n");
 	inorder(root_ptr);
+	
+//	root_ptr=delete(root_ptr,7);
+	printf("After deletion, inorder:");
+	inorder(root_ptr);
 
+	printf("Inorder successor:");
+	successor=inorder_successor(root_ptr,8);
+	printf("\t%d\n",successor->data);
 	return 0;
 }
