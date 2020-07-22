@@ -18,12 +18,13 @@ int* money_change(int money, int* coins,int n_coins){
 		for(j=0;j<n_coins;j++){
 			if((i-coins[j])>=0){
 				temp=1+final[i-coins[j]];
+  			//compare temp and the current best 
+	  		best=min(best,temp);
+
 			}
 			else{
 				continue;
 			}
-			//compare temp and the current best 
-			best=min(best,temp);
 		}
 		final[i]=best;
 	}
