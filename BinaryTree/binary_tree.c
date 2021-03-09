@@ -181,8 +181,28 @@ struct BstNode* inorder_successor(struct BstNode* root,int data){
 	}
 	return successor;
 }
-
 } 
+
+int sum_of_leaf_nodes(struct BstNode* root){
+	/* prints the sum of all the leaf nodes */
+	//handle empty tree case 
+	static int total=0;
+	if (root==NULL){
+		return 0;
+	}
+	//else if it is a leaf node 
+	if(root->left==NULL && root->right==NULL){
+		return root->data;
+	}
+	//if not a leaf node, go to its right and left and 
+	//recursively add
+	total = total+ sum_of_leaf_nodes(root->left)+sum_of_leaf_nodes(root->right);
+	
+	return total;
+	
+}
+
+
 int main(){
 	struct BstNode* root_ptr,*successor;
 	int data;
@@ -218,5 +238,8 @@ int main(){
 	printf("Inorder successor:");
 	successor=inorder_successor(root_ptr,8);
 	printf("\t%d\n",successor->data);
+
+	//print sum of all leaf nodes 
+	printf("Sum of all leaf nodes:%d\n",sum_of_leaf_nodes(root_ptr));
 	return 0;
 }
